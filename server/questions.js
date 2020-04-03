@@ -2,7 +2,7 @@ const https = require('https');
 
 function getQuestions(number, category, difficuly) {
   return new Promise((resolve, reject) => {
-    let url = `https://opentdb.com/api.php?amount=${number}&category=${category}&difficulty=${difficuly}&type=boolean`
+    let url = `https://opentdb.com/api.php?amount=${number}&category=${category}&difficulty=${difficuly}&type=boolean`    
     https.get(url, (resp) => {
       let data = '';
   
@@ -10,7 +10,6 @@ function getQuestions(number, category, difficuly) {
         data += chunk;
       });
   
-      // The whole response has been received. Print out the result.
       resp.on('end', () => {
         const qData = JSON.parse(data);
         questions = qData.results;              
@@ -18,7 +17,7 @@ function getQuestions(number, category, difficuly) {
       });
   
     }).on("error", (err) => {
-      reject("Error: 123 " + err.message)
+      reject("Error: " + err.message)
     });
   })
 
