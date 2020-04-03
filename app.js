@@ -13,7 +13,7 @@ var questionNumber = 0;
 var correctAnswers = 0;
 
 app.use(bodyParser.urlencoded({ extended: true }))
-app.use(express.static('public'))
+app.use(express.static('styles'))
 app.set('views', path.join(__dirname, 'views'));
 app.engine('handlebars', exphbs({ defaultLayout: 'main' }));
 app.set('view engine', 'handlebars');
@@ -36,7 +36,7 @@ app.post('/', (req, res) => {
     .then((data) => console.log(data))
     .then(() => {
       res.render('question', {
-        question: trivia[questionNumber].question.replace('&quot;', '\''),
+        question: trivia[questionNumber].question.replace(/&quot;/g, '\''),
         result: ""
       });
     })
@@ -54,8 +54,10 @@ app.post('/questions', (req, res) => {
     });
   } else {
     questionNumber++
+    const question = trivia[questionNumber].question.replace(/&quot;/g, '\'')
+
     res.render('question', {
-      question: trivia[questionNumber].question.replace('&quot;', '\''),
+      question: question,
       result: ""
     });
   }
